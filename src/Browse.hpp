@@ -13,7 +13,7 @@ namespace TX {
 class Browse {
 public:
   typedef boost::filesystem::path DirectoryEntry;
-  typedef std::unordered_set<std::string> Container;
+  typedef boost::filesystem::directory_iterator Container;
 
   struct PathLevel{
     boost::filesystem::path absoluteCurrentPath;

@@ -10,7 +10,7 @@ namespace TX {
 Browse::Browse(const std::string &path) :
   originPath(path) {
   Container initContainer;
-  initContainer.insert (path);
+  initContainer = boost::filesystem::directory_iterator (path);
 
   PathLevel initPath {path, initContainer};
 
@@ -25,10 +25,16 @@ void Browse::printCurrentPath () {
 }
 
 void Browse::stateMachin () {
+  bool ret;
   do {
+    std::cout << "-------------------" << std::endl;
+    printCurrentPath();
     getDown();
+    printCurrentPath();
     browseFiles();
-  } while(getUp ());
+    printCurrentPath();
+    ret = getUp();
+  } while(ret);
 }
 
 
@@ -41,12 +47,12 @@ void Browse::getDown () {
 
     
     ret_ = ret.success;
-    std::cout << "  > " << ret.data << std::endl;
 
     if (ret.success) {
       PathLevel pathLevel;
       pathLevel.absoluteCurrentPath = ret.data;
-      pathLevel.visitedDirectories.insert (ret.data.string());
+      pathLevel.visitedDirectories = boost::filesystem::directory_iterator (ret.data);
+      
 
       currentPath.push  (pathLevel);
     }
@@ -58,6 +64,7 @@ void Browse::getDown () {
 bool Browse::getUp () {
   if (currentPath.size () > 1) {
     currentPath.pop();
+    currentPath.top().visitedDirectories++;
     return true;
   } else {
     return false;
@@ -66,24 +73,25 @@ bool Browse::getUp () {
 
 
 bool Browse::isVisited (const std::string &path) {
-  PathLevel current = currentPath.top();
-  auto ret = current.visitedDirectories.find(path);
-  return (ret != current.visitedDirectories.end());
+  // PathLevel current = currentPath.top();
+  // auto ret = current.visitedDirectories.find(path);
+  // return (ret != current.visitedDirectories.end());
+  return false;
 }
 
 Return <Browse::DirectoryEntry> Browse::getNextDirectory () {
   if (boost::filesystem::exists(currentPath.top().absoluteCurrentPath)) {
     boost::filesystem::directory_iterator end_itr;
 
-    for (boost::filesystem::directory_iterator itr(currentPath.top().absoluteCurrentPath) ; 
-	 itr != end_itr ; ++itr) {
+    for (; 
+	 currentPath.top().visitedDirectories != end_itr ; 
+	 currentPath.top().visitedDirectories++) {
 
-      if (boost::filesystem::is_directory(itr->status()) && 
-	  !isVisited(itr->path().string())) {
+      if (boost::filesystem::is_directory(currentPath.top().visitedDirectories->status())) {
 
-	currentPath.top().visitedDirectories.insert(itr->path().string());
+	//currentPath.top().visitedDirectories = itr;
 
-      	return itr->path();
+      	return currentPath.top().visitedDirectories->path();
       }
 
     }

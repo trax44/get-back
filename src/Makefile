@@ -1,7 +1,7 @@
 CC = gcc
 CXX = g++
 
-CXXFLAGS = -Wall -g -std=gnu++11 --coverage
+CXXFLAGS = -Wall -g3 -std=gnu++11 --coverage -O0
 LDFLAGS = -lm  --coverage -lboost_filesystem -lboost_system
 
 SRC_CPP = $(wildcard *cpp)
