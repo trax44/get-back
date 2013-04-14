@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  TX::Browse browser(std::string (argv[1]));
+  TX::Browse browser(argv[1]);
 
   // browser.getDown();
   // browser.browseFiles();
@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
   //   std::cout << "There is no directory in " << std::endl;
   // }
     
-
+  browser.printCurrentPath();
   return 0;
 }
 

@@ -16,6 +16,7 @@ Browse::Browse(const std::string &path) :
 
   currentPath.push (initPath);
 
+
   stateMachin();
 }
 
@@ -25,12 +26,8 @@ void Browse::printCurrentPath () {
 
 void Browse::stateMachin () {
   do {
-    std::cout << "----" << std::endl;
-    printCurrentPath();
     getDown();
-    printCurrentPath();
     browseFiles();
-    printCurrentPath();
   } while(getUp ());
 }
 
