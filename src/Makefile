@@ -2,13 +2,13 @@ CC = gcc
 CXX = g++
 
 CXXFLAGS = -Wall -g3 -std=gnu++11 --coverage -O0
-LDFLAGS = -lm  --coverage -lboost_filesystem -lboost_system
+LDFLAGS = -lm -lboost_filesystem -lboost_system -lboost_thread -lpthread  -L/home/trax/root/lib/ -lmongoclient
 
 SRC_CPP = $(wildcard *cpp)
 OBJS = $(SRC_CPP:.cpp=.o)
 EXEC = super-locate
 
-COMPILE := $(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJS) -o $(EXEC)
+COMPILE := $(CXX) $(CXXFLAGS)  $(OBJS) $(LDFLAGS)  -o $(EXEC)
 
 debug : CFLAGS += -DDEBUG -g
 

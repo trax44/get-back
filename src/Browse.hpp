@@ -7,6 +7,8 @@
 #include <unordered_set>
 
 #include "Return.hpp"
+#include "FileProcessor.hpp"
+
 
 namespace TX {
 
@@ -25,10 +27,10 @@ public:
 private:
   const std::string originPath;
   std::stack<PathLevel> currentPath;
-
+  FileProcessor &fileProcessor;
 
 public:
-  Browse(const std::string &path);
+  Browse(const std::string &path, FileProcessor &fileProcessor);
 
   void stateMachin ();
   bool isVisited (const std::string &path);

@@ -1,14 +1,17 @@
 #include <boost/filesystem.hpp>
 #include <stack>
+#include <algorithm> 
 
+#include "FileProcessor.hpp"
 #include "Browse.hpp"
-
 
 
 namespace TX {
 
-Browse::Browse(const std::string &path) :
-  originPath(path) {
+Browse::Browse(const std::string &path, FileProcessor &_fileProcessor) :
+  originPath(path),
+  fileProcessor(_fileProcessor){
+  
   Container initContainer;
   initContainer = boost::filesystem::directory_iterator (path);
 
@@ -108,7 +111,11 @@ Return <Browse::DirectoryEntry> Browse::browseFiles () {
 	 itr != end_itr ; ++itr) {
 
       if (!boost::filesystem::is_directory(itr->status())) {
-	std::cout << "FILE> " << *itr << std::endl;
+	std::cout << "FILE> " << *itr << ":"  << std::endl;
+
+	fileProcessor.processFilePath(itr->path().parent_path().string(),
+				      itr->path().filename().string(),
+				      itr->path().extension().string());
       }
 
     }
