@@ -2,3 +2,5 @@
 *.gcda
 *.gcno
 *.o
+*.d
+super-locate
