@@ -1,7 +1,7 @@
 CC = gcc
 CXX = g++
 
-CXXFLAGS = -Wall -g3 -std=gnu++11 --coverage -O0
+CXXFLAGS = -Wall -g3 -std=gnu++11 --coverage -O0 -Werror
 LDFLAGS = -lm -lboost_filesystem -lboost_system -lboost_thread -lpthread  -L/home/trax/root/lib/ -lmongoclient
 
 SRC_CPP = $(wildcard *cpp)
