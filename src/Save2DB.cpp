@@ -81,18 +81,15 @@ namespace TX {
       } else {
 	collection.append(".noExtention");
       }
-      //convertFSPathToMongoDBPath(collection);
-      // c.insert (collection, p);
 
       set.append ("$set", p);
       mongo::BSONObj pp = set.obj();
 
       c.update(collection,
-	       BSON("name" << filename),
+	       BSON("fullPath" << fullpath),
 	       pp , 
 	       true);
 
-      std::cout << "is Failed " << c.isFailed() << std::endl;
 
       std::cout << "INSERT> " << collection << " " << pp << std::endl;
     } else {
