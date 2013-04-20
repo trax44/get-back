@@ -19,12 +19,6 @@ int main(int argc, char *argv[]) {
 
   TX::Browse browser(argv[1], mongodb);
 
-  // browser.getDown();
-  // browser.browseFiles();
-  //  TX::Return <TX::Browse::DirectoryEntry>  ret = browser.getNextDirectory(path);
-  // if (!ret.success) {
-  //   std::cout << "There is no directory in " << std::endl;
-  // }
     
   browser.printCurrentPath();
   return 0;

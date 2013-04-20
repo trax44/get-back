@@ -8,8 +8,6 @@ namespace TX {
     dbName(_dbName){
     std::string errorMsg;
   
-    std::cout << "DBName " << dbName << std::endl;
-
     if (!c.connect(serverName, errorMsg)) {
       throw DBConnect(errorMsg);
     }
@@ -35,12 +33,11 @@ namespace TX {
 
   //http://stackoverflow.com/questions/5309471/getting-file-extension-in-c
   const char *Save2DB::get_filename_ext(const char *filename) {
-    std::cout << "> " << __LINE__ << std::endl;
     if (filename == NULL){
       return NULL;
     }
     const char *dot = strrchr(filename, '.');
-    std::cout << "> " << __LINE__ << filename << std::endl;
+
     if(!dot || dot == filename) {
       return NULL;
     } else {
@@ -91,11 +88,7 @@ namespace TX {
 	       true);
 
 
-      std::cout << "INSERT> " << collection << " " << pp << std::endl;
-    } else {
-      std::cout << "NO STAT" << std::endl;
-    }
-
+    } 
     return true;
   }
 }

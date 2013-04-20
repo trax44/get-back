@@ -30,7 +30,6 @@ void Browse::printCurrentPath () {
 void Browse::stateMachin () {
   bool ret;
   do {
-    std::cout << "-------------------" << std::endl;
     printCurrentPath();
     getDown();
     printCurrentPath();
@@ -111,7 +110,6 @@ Return <Browse::DirectoryEntry> Browse::browseFiles () {
 	 itr != end_itr ; ++itr) {
 
       if (!boost::filesystem::is_directory(itr->status())) {
-	std::cout << "FILE> " << *itr << ":"  << std::endl;
 
 	fileProcessor.processFilePath(itr->path().parent_path().string(),
 				      itr->path().filename().string(),
