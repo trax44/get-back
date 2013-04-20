@@ -5,19 +5,21 @@
 #include "Return.hpp"
 #include "Browse.hpp"
 #include "Save2DB.hpp"
-
+#include "Configuration.hpp"
 
 
 int main(int argc, char *argv[]) {
   
-  if (argc != 2) {
-    std::cout << argv[0] << " dir" << std::endl;
+  if (argc != 3) {
+    std::cout << argv[0] << "confFile dir" << std::endl;
     return -1;
   }
 
-  TX::Save2DB  mongodb("localhost", "test");
+  TX::Configuration configuration(argv[1]);
+  TX::Save2DB  mongodb(configuration.getServerHostName(), 
+		       configuration.getDataBaseName());
 
-  TX::Browse browser(argv[1], mongodb);
+  TX::Browse browser(argv[2], mongodb);
 
     
   browser.printCurrentPath();
