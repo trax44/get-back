@@ -33,7 +33,8 @@ namespace TX {
     const std::string   &getDataBaseName();
     const std::uint16_t &getServerPort();
     const std::vector<std::string> &getEnabledExtensions();
-    Return<const boost::property_tree::ptree> getConfigurationForModule ();
+    Return<boost::property_tree::ptree> 
+    getConfigurationForModule (const std::string moduleName);
     
   };
   
