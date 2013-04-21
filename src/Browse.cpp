@@ -2,13 +2,12 @@
 #include <stack>
 #include <algorithm> 
 
-#include "FileProcessor.hpp"
 #include "Browse.hpp"
 
 
 namespace TX {
 
-Browse::Browse(const std::string &path, FileProcessor &_fileProcessor) :
+Browse::Browse(const std::string &path, modules::Module &_fileProcessor) :
   originPath(path),
   fileProcessor(_fileProcessor){
   

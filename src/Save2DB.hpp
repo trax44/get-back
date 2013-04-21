@@ -5,12 +5,12 @@
 #include <mongo/client/dbclient.h>
 
 #include "Return.hpp"
-#include "FileProcessor.hpp"
+#include "modules/Module.hpp"
 
 
 namespace TX {
 
-class Save2DB : public FileProcessor{
+class Save2DB : public modules::Module {
 public:
 
 struct DBConnect: public std::exception {

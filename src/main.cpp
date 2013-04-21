@@ -6,6 +6,7 @@
 #include "Browse.hpp"
 #include "Save2DB.hpp"
 #include "Configuration.hpp"
+#include "modules/Module.hpp"
 
 
 int main(int argc, char *argv[]) {
@@ -19,10 +20,14 @@ int main(int argc, char *argv[]) {
   TX::Save2DB  mongodb(configuration.getServerHostName(), 
 		       configuration.getDataBaseName());
 
-  TX::Browse browser(argv[2], mongodb);
+  
+  //std::cout << "Skel> " << init (NULL) << std::endl;
+
+
+  //TX::Browse browser(argv[2], mongodb);
 
     
-  browser.printCurrentPath();
+  //browser.printCurrentPath();
   return 0;
 }
 

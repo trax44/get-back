@@ -1,7 +1,14 @@
-#include "Save2DB.hpp"
 
 #include <exception>
 #include <stdint.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <libgen.h>
+
+#include "Save2DB.hpp"
+
 
 namespace TX {
   Save2DB::Save2DB(const std::string &serverName, const std::string &_dbName) :
@@ -46,10 +53,6 @@ namespace TX {
   }
 
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <libgen.h>
 
   bool Save2DB::processFilePath(const std::string directoryPath, 
 				const std::string filename,
