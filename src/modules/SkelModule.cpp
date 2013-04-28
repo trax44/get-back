@@ -18,10 +18,13 @@ namespace TX {
 namespace modules {
 
 SkelModule::SkelModule(void *configuration) {
-  
+
   if (configuration == NULL){
     throw std::runtime_error ("test");
   }
+
+  std::cout << "Skel Module constructor" << std::endl;
+
 }
 
 

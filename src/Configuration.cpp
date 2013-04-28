@@ -1,8 +1,8 @@
+#include <iostream>
+#include <stdexcept>
+
 #include "Configuration.hpp"
 
-#include <iostream>
-
-#include <stdexcept>
 
 namespace TX {
   
@@ -25,13 +25,18 @@ Configuration::Configuration(const std::string &configPath) {
        it != end ; ++it) {
       
     if (it->first != "db") {
+      std::cout << "module>> " << it->first << " is ";
       if (it->second.get<bool>("enabled")) {
-	enabledExtensions.push_back(it->first);
+	std::cout << " enabled" << std::endl;
+	modules.insert({it->first, it->second});
+      } else {
+	std::cout << " disabled" << std::endl;
       }
+    } else {
+      // only mandatory plugin is SaveDB
     }
       
   }
-    
 }
 
   
@@ -48,16 +53,22 @@ const std::string   &Configuration::getDataBaseName() {
   return dbConf.dataBaseName;
 }
 
-
-const std::vector<std::string> &Configuration::getEnabledExtensions() {
-  return enabledExtensions;
+const Configuration::ModuleConfigurationContainer &Configuration::getEnabledModules() {
+  return modules;
 }
 
-Return<boost::property_tree::ptree> 
+
+Return<Configuration::ModuleConfiguration> 
 Configuration::getConfigurationForModule (const std::string moduleName) {
   std::string path (moduleName + ".enabled");
   
-  return Return<boost::property_tree::ptree> (pt.get_child (path));
+  const auto got = modules.find (path);
+  
+  if (got == modules.end()) {
+    return std::move(Return<Configuration::ModuleConfiguration>(false));
+  } else {
+    return std::move(Return<Configuration::ModuleConfiguration> (got->second));
+  }
 }
 
   
