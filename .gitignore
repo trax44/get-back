@@ -2,5 +2,9 @@
 *.gcda
 *.gcno
 *.o
+*.so
 *.d
+*.doc
+doc/html
+doc/man
 super-locate
