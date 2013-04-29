@@ -22,8 +22,7 @@ public:
   
 
 private:
-  boost::property_tree::ptree pt;
-    
+  
   struct ConfigurationDB {
     std::string serverHostName;
     std::string dataBaseName;
@@ -32,6 +31,7 @@ private:
 
   //std::vector<std::string> enabledExtensions;
   ModuleConfigurationContainer modules;
+  boost::property_tree::ptree pt;
     
 public:
   Configuration (const std::string &path);
@@ -41,7 +41,7 @@ public:
   const std::uint16_t &getServerPort();
   const ModuleConfigurationContainer &getEnabledModules();
   Return<ModuleConfiguration> getConfigurationForModule (const std::string moduleName);
-    
+  
 };
   
 } //TX

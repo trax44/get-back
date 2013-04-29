@@ -8,7 +8,7 @@
 
 #include "Return.hpp"
 #include "modules/Module.hpp"
-
+#include "ModuleManager.hpp"
 
 namespace TX {
 
@@ -27,10 +27,10 @@ public:
 private:
   const std::string originPath;
   std::stack<PathLevel> currentPath;
-  modules::Module &fileProcessor;
+  ModuleManager &moduleManager;
 
 public:
-  Browse(const std::string &path, modules::Module &fileSaver);
+  Browse(const std::string &path, ModuleManager &moduleManager);
 
   void stateMachin ();
   bool isVisited (const std::string &path);

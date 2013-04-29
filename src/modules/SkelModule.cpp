@@ -1,12 +1,11 @@
 #include "SkelModule.hpp"
 
 
-
-
 extern "C" {
+
   void* init(void *configuration) {
     try {
-      return new TX::modules::SkelModule (configuration);
+      return new TX::module::SkelModule (configuration);
     } catch (std::runtime_error &e){
       std::cout << "Could not load module " << e.what() << std::endl;
       return NULL;
@@ -15,7 +14,7 @@ extern "C" {
 }
 
 namespace TX {
-namespace modules {
+namespace module {
 
 SkelModule::SkelModule(void *configuration) {
 

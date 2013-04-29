@@ -8,7 +8,7 @@
 
 
 namespace TX {
-namespace modules {
+namespace module {
 
 class SkelModule {
 public:
@@ -16,8 +16,7 @@ public:
   virtual ~SkelModule();
 };
 
-} //MODULE
-
+} //module
 } //TX
 
 

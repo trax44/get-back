@@ -5,42 +5,41 @@
 #include <mongo/client/dbclient.h>
 
 #include "Return.hpp"
-#include "modules/Module.hpp"
 
 
 namespace TX {
 
-class Save2DB : public modules::Module {
+class Save2DB {
 public:
 
-struct DBConnect: public std::exception {
-const std::string who;
-DBConnect (const std::string &_what) : who(_what) {}
+  struct DBConnect: public std::exception {
+    const std::string who;
+    DBConnect (const std::string &_what) : who(_what) {}
 
-const char* what() const noexcept {
-return who.c_str();
-}
-};
+    const char* what() const noexcept {
+      return who.c_str();
+    }
+  };
 
 private:
-mongo::DBClientConnection c;
-const std::string dbName;
-std::string errorMsg;
+  mongo::DBClientConnection c;
+  const std::string dbName;
+
+  std::string errorMsg;
 
 public:
-Save2DB(const std::string &serverName, const std::string &dbName);
+  Save2DB (const std::string &serverName, 
+	   const std::string &dbName);
 
 
-static const char *get_filename_ext(const char *filename);
-Return<std::string> convertFSPathToMongoDBPath (std::string &fsPath);
-bool processFilePath(const std::string directoryPath, 
-		       const std::string fileName,
-		       const std::string extension);
+  Return<std::string> convertFSPathToMongoDBPath (std::string &fsPath);
 
 
-bool addEntry(const std::string &path);
+  bool saveEntry(const std::string &extenstion,
+		 const std::string &fullPath, 
+		 const mongo::BSONObj &request);
 
-virtual ~Save2DB(){}
+  virtual ~Save2DB(){}
 };
 
 } //TX {

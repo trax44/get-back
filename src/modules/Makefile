@@ -6,7 +6,7 @@ LDFLAGS = -lm -lboost_filesystem -lboost_system -lboost_thread -lpthread  -L/hom
 
 
 libskelmodule.so:SkelModule.o
-	$(CXX)  $(CXXFLAGS) -shared -Wl,-soname,libskelmodule.so -o libskelmodule.so
+	$(CXX)  $(CXXFLAGS) -shared -Wl,-soname,libskelmodule.so -o libskelmodule.so $(<)
 
 
 %.o:%.cpp

@@ -7,9 +7,9 @@
 
 namespace TX {
 
-Browse::Browse(const std::string &path, modules::Module &_fileProcessor) :
+Browse::Browse(const std::string &path, ModuleManager &_moduleManager) :
   originPath(path),
-  fileProcessor(_fileProcessor){
+  moduleManager(_moduleManager){
   
   Container initContainer;
   initContainer = boost::filesystem::directory_iterator (path);
@@ -110,7 +110,7 @@ Return <Browse::DirectoryEntry> Browse::browseFiles () {
 
       if (!boost::filesystem::is_directory(itr->status())) {
 
-	fileProcessor.processFilePath(itr->path().parent_path().string(),
+	moduleManager.processFilePath(itr->path().parent_path().string(),
 				      itr->path().filename().string(),
 				      itr->path().extension().string());
       }

@@ -23,7 +23,7 @@ Configuration::Configuration(const std::string &configPath) {
   boost::property_tree::ptree groups = pt.get_child("");
   for (auto it = groups.begin() , end = groups.end () ; 
        it != end ; ++it) {
-      
+
     if (it->first != "db") {
       std::cout << "module>> " << it->first << " is ";
       if (it->second.get<bool>("enabled")) {
