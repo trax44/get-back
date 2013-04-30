@@ -27,8 +27,10 @@ bool ModuleManager::registerModule (const std::string &modulePath,
   dlerror();
 
   typedef void* (*init_t)(void*);
+  typedef void  (*destroy_t)(TX::module::Module*);
 
-  init_t initFunction =  (init_t)dlsym(handle, "init");
+  init_t    initFunction    =  (init_t)   dlsym(handle, "init");
+  destroy_t destroyFunction =  (destroy_t)dlsym(handle, "destroy");
   const char *dlsym_error = dlerror();
 
   if (dlsym_error) {
@@ -37,19 +39,23 @@ bool ModuleManager::registerModule (const std::string &modulePath,
     dlclose(handle);
     return true;
   }
-    
-  const module::Module *module = (const module::Module *)initFunction((void *)&pt);
+  
+  module::Module *module = (module::Module *)initFunction((void *)&pt);
+  std::cout << "module address " << module << std::endl;
 
   boost::char_separator<char> sep(", ");
   boost::tokenizer<boost::char_separator<char> > tokens(pt.get<std::string>("extensions"), sep);
 
   for (auto it : tokens) {
-    std::shared_ptr<const module::Module> t(module);
     // std::pair<std::string, std::shared_ptr<const module::Module> > pair (it, t);
-    // modules.insert(std::make_pair<std::string, std::shared_ptr<const module::Module> >(it, t);
+
+    
     std::cout << "--" << it << "++" << std::endl;
-    modules.insert (std::make_pair<std::string, std::shared_ptr<const module::Module>> 
-		    (std::move(it), std::move(t)));
+    modulesInformation.push_back ({module, handle, destroyFunction});
+    modules.insert (std::make_pair<std::string, module::Module *> 
+    		    (std::move(it), std::move(module)));
+    //modules.insert ({it, module});
+    
   }
 
 
@@ -72,7 +78,13 @@ bool ModuleManager::processFilePath (const std::string &path,
 }
 
 
-ModuleManager::~ModuleManager() {}
+ModuleManager::~ModuleManager() {
+  for (auto it: modulesInformation) {
+    TX::module::Module *module = it.module;
+    it.destructor(module);
+    dlclose(it.libHandle);
+  }
+}
 
 
 } //TX

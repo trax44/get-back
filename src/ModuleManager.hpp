@@ -12,11 +12,26 @@
 namespace TX {
 
 
+
+
 class ModuleManager {
 private:
   Save2DB &mongodb;
-  std::unordered_multimap <std::string, 
-			   std::shared_ptr<const module::Module> > modules;
+  
+  //typedef void* (*init_t)(void*);
+  typedef void (*destroy_t)(TX::module::Module*);
+
+  struct ModuleInformation {
+    TX::module::Module *module;
+    void *libHandle;
+    destroy_t destructor;
+  };
+
+
+  std::list<ModuleInformation> modulesInformation;
+  
+  //  std::unordered_multimap <std::string, module::Module*> modules;
+  std::unordered_multimap <std::string, module::Module*> modules;
 
   // std::unordered_multimap <const std::string, 
   // 			   std::shared_ptr<const module::Module *> > modules;

@@ -3,16 +3,22 @@
 
 #include <stdexcept>
 #include <boost/property_tree/ptree.hpp>
+
 #include "../Return.hpp"
+#include "Module.hpp"
 
 
 
 namespace TX {
 namespace module {
 
-class SkelModule {
+class SkelModule :public Module {
 public:
-  SkelModule(void *);
+  SkelModule(boost::property_tree::ptree  *);
+
+  Return<mongo::BSONObj> processFilePath(const std::string directoryPath, 
+					 const std::string filename,
+					 const std::string extension);
   virtual ~SkelModule();
 };
 

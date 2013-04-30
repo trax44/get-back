@@ -3,11 +3,9 @@
 
 #include <string>
 #include <mongo/client/dbclient.h>
+#include <boost/property_tree/ptree.hpp>
 
 #include "../Return.hpp"
-
-
-extern "C" void* init_t(void *configuration);
 
 
 namespace TX {
@@ -28,6 +26,10 @@ public:
 
 } //module
 } //TX
+
+
+extern "C" TX::module::Module* init_t(boost::property_tree::ptree *configuration);
+extern "C" void destroy_t(TX::module::Module*);
 
 
 #endif /* TX_MODULES */
