@@ -13,12 +13,18 @@ namespace TX {
 namespace module {
 
 class SkelModule :public Module {
+private:
+  boost::property_tree::ptree *configuration;
+
 public:
   SkelModule(boost::property_tree::ptree  *);
 
-  Return<mongo::BSONObj> processFilePath(const std::string directoryPath, 
-					 const std::string filename,
-					 const std::string extension);
+  bool
+  processFilePath(const std::string directoryPath, 
+		  const std::string filename,
+		  const std::string extension,
+		  mongo::BSONObjBuilder *requestBuilder);
+  
   virtual ~SkelModule();
 };
 

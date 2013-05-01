@@ -37,7 +37,7 @@ public:
 
   bool saveEntry(const std::string &extenstion,
 		 const std::string &fullPath, 
-		 const mongo::BSONObj &request);
+		 mongo::BSONObjBuilder &request);
 
   virtual ~Save2DB(){}
 };

@@ -21,8 +21,11 @@ int main(int argc, char *argv[]) {
   
   auto modulesConfiguration = configuration.getEnabledModules();
   
-  for (auto it: modulesConfiguration) {
-    moduleManager.registerModule(it.second.get<std::string>("lib"), it.second);
+  for (std::unordered_map<std::string, TX::Configuration::ModuleConfiguration>::iterator
+	 it = modulesConfiguration.begin() , 
+	 end = modulesConfiguration.end() ;
+       it != end ; ++it) {
+    moduleManager.registerModule(it->second.get<std::string>("lib"), &(it->second));
   }
 
   

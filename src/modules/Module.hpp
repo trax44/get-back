@@ -14,10 +14,12 @@ namespace module {
 class Module {
 public:
 
-  virtual Return<mongo::BSONObj> processFilePath(const std::string directoryPath, 
-						 const std::string filename,
-						 const std::string extension) = 0;
-
+  virtual bool
+  processFilePath(const std::string directoryPath, 
+		  const std::string filename,
+		  const std::string extension,
+		  mongo::BSONObjBuilder *requestBuilder) = 0;
+  
 
   virtual ~Module() {}
 };

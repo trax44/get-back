@@ -40,7 +40,7 @@ public:
   ModuleManager(Save2DB &mongodb);
 
   bool registerModule (const std::string &modulePath,
-		 const boost::property_tree::ptree &pt);
+		       boost::property_tree::ptree *pt);
 
   bool processFilePath (const std::string &path,
 			const std::string &fileName,
