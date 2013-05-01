@@ -83,7 +83,7 @@ bool ModuleManager::processFilePath (const std::string &path,
 	      << " addr " << it->second 
 	      << std::endl;
 
-  mongo::BSONObjBuilder requestBuilder;
+    mongo::BSONObjBuilder requestBuilder;
     const std::string fullPath (path + "/" + fileName);
 
 
