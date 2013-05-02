@@ -43,16 +43,19 @@ bool ModuleManager::registerModule (const std::string &modulePath,
   module::Module *module = (module::Module *)initFunction((void *)pt);
 
   boost::char_separator<char> sep(", ");
-  boost::tokenizer<boost::char_separator<char> > tokens(pt->get<std::string>("extensions"), sep);
+  boost::tokenizer<boost::char_separator<char> > 
+    tokens(pt->get<std::string>("extensions"), sep);
 
   modulesInformation.push_back ({module, handle, destroyFunction});
   for (auto it : tokens) {
     // std::pair<std::string, std::shared_ptr<const module::Module> > pair (it, t);
 
-    
-    std::cout << "--" << it << "++" << std::endl;
-    modules.insert (std::make_pair<std::string, module::Module *> 
-    		    (std::move(it), std::move(module)));
+    if (it == "ALL") {
+      modulesForAllEnabledFiles.push_back (module);
+    } else {
+      modules.insert (std::make_pair<std::string, module::Module *> 
+		      (std::move(it), std::move(module)));
+    }
     //modules.insert ({it, module});
     
   }

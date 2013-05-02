@@ -32,6 +32,7 @@ private:
   
   //  std::unordered_multimap <std::string, module::Module*> modules;
   std::unordered_multimap <std::string, module::Module*> modules;
+  std::vector<module::Module*> modulesForAllEnabledFiles;
 
   // std::unordered_multimap <const std::string, 
   // 			   std::shared_ptr<const module::Module *> > modules;
