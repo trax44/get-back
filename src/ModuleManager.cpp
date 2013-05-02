@@ -41,7 +41,6 @@ bool ModuleManager::registerModule (const std::string &modulePath,
   }
   
   module::Module *module = (module::Module *)initFunction((void *)pt);
-  std::cout << "module address " << handle << std::endl;
 
   boost::char_separator<char> sep(", ");
   boost::tokenizer<boost::char_separator<char> > tokens(pt->get<std::string>("extensions"), sep);
@@ -68,20 +67,20 @@ bool ModuleManager::processFilePath (const std::string &path,
 				     const std::string &fileName,
 				     const std::string &extension) {
   
-  std::cout << "processing by module manager " 
-	    << fileName 
-	    << " ext(" 
-	    << extension
-	    << ")"
-	    << std::endl;
+  // std::cout << "processing by module manager " 
+  // 	    << fileName 
+  // 	    << " ext(" 
+  // 	    << extension
+  // 	    << ")"
+  // 	    << std::endl;
   
   auto range = modules.equal_range (extension);
   
   for (auto it = range.first , end = range.second ; it != end ; ++it) {
-    std::cout << "send " << fileName 
-	      << " to module " << it->first 
-	      << " addr " << it->second 
-	      << std::endl;
+    // std::cout << "send " << fileName 
+    // 	      << " to module " << it->first 
+    // 	      << " addr " << it->second 
+    // 	      << std::endl;
 
     mongo::BSONObjBuilder requestBuilder;
     const std::string fullPath (path + "/" + fileName);
@@ -109,7 +108,6 @@ ModuleManager::~ModuleManager() {
   std::cout << "~ModuleManager" << std::endl;
   for (auto it: modulesInformation) {
     TX::module::Module *module = it.module;
-    std::cout << "destroying " << module << std::endl;
     it.destructor(module);
     dlclose(it.libHandle);
   }

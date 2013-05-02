@@ -16,8 +16,6 @@ Save2DB::Save2DB(const std::string &serverName, const std::string &_dbName) :
   dbName(_dbName){
   std::string errorMsg;
 
-  std::cout << "Save2DB " << serverName << " " << dbName << std::endl;
-  
   if (!c.connect(serverName, errorMsg)) {
     throw DBConnect(errorMsg);
   }
@@ -47,13 +45,11 @@ bool Save2DB::saveEntry (const std::string &extenstion,
   
   
   mongo::BSONObj p = request.obj();
-  std::cout << "saving->" << fullPath << " " << p << std::endl;
 
   mongo::BSONObjBuilder finaleRequest;
   finaleRequest.append ("$set", p);
 
   mongo::BSONObj pp = finaleRequest.obj();
-  std::cout << pp << std::endl;
 
   std::string collection (dbName + extenstion);
   

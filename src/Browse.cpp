@@ -29,11 +29,8 @@ void Browse::printCurrentPath () {
 void Browse::stateMachin () {
   bool ret;
   do {
-    printCurrentPath();
     getDown();
-    printCurrentPath();
     browseFiles();
-    printCurrentPath();
     ret = getUp();
   } while(ret);
 }
