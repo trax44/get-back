@@ -64,9 +64,9 @@ bool Browse::getUp () {
     currentPath.pop();
     currentPath.top().visitedDirectories++;
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 
@@ -106,7 +106,7 @@ Return <Browse::DirectoryEntry> Browse::browseFiles () {
 	 itr != end_itr ; ++itr) {
 
       if (!boost::filesystem::is_directory(itr->status())) {
-
+	std::cout << "process file " << itr->path().filename().string() << std::endl;
 	moduleManager.processFilePath(itr->path().parent_path().string(),
 				      itr->path().filename().string(),
 				      itr->path().extension().string());
