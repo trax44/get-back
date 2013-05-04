@@ -2,8 +2,9 @@
 #define TX_THREADSAFEQUEUE_HPP_
 
 #include <queue>
-#include "SpinLock.hpp"
 
+#include "SpinLock.hpp"
+#include "../Return.hpp"
 
 namespace TX {
 namespace tools {
@@ -11,28 +12,55 @@ namespace tools {
 template <class T>
 class ThreadSafeQueue {
 private:
-  std::queue<T*>   queue;
+  std::queue<T>   queue;
   tools::SpinLock  spinLock;
-
+  
+  
 public:
 
-  bool push (T *data) {
+  bool push (T data) {
     spinLock.lock ();
     queue.push (data);
     spinLock.unlock ();
+    
     return true;
   }
   
-  T* pop () {
-    T* ret = NULL;
+  Return<T> pop () {
     spinLock.lock ();
     if (!queue.empty()) {
-      ret = queue.front ();
+      T ret = queue.front ();
       queue.pop();
+      spinLock.unlock ();
+      return ret;
+    } else {
+      spinLock.unlock ();
+      return false;
     }
-    spinLock.unlock ();
-    return ret;
   }
+
+  // T popBlocking () {
+  //   bool  ret = false;
+  //   spinLock.lock ();
+    
+  //   while (ret == false) {
+  //     std::cout << "popBlocking" << std::endl;
+  //     if (queue.empty()) {
+  // 	spinLock.unlock();
+	
+
+  //       std::unique_lock<std::mutex> lock(m);
+  // 	cond_var.wait(lock);
+
+
+  // 	ret = true;
+  //     }
+	
+  // 	return result;
+  //     }
+  //   }
+  //   return ret;
+  // }
 
   // ~ThreadSafeQueue() {
   //   for (auto it: queue) {
