@@ -11,7 +11,7 @@
 #include <boost/property_tree/exceptions.hpp>
 
 #include "Return.hpp"
-
+#include "./modules/Module.hpp"
 namespace TX {
   
 class Configuration {
