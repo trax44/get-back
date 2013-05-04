@@ -8,19 +8,18 @@
 #include "modules/Module.hpp"
 #include "Configuration.hpp"
 #include "Save2DB.hpp"
+#include "tools/ThreadPool.hpp"
 
 namespace TX {
-
-
-
 
 class ModuleManager {
 private:
   Save2DB &mongodb;
+  ThreadPool <std::function<int()>*, int> pool ();
   
   //typedef void* (*init_t)(void*);
   typedef void (*destroy_t)(TX::module::Module*);
-
+  
   struct ModuleInformation {
     TX::module::Module *module;
     void *libHandle;
