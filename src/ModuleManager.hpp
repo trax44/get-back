@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
+#include <functional>
 
 #include "modules/Module.hpp"
 #include "Configuration.hpp"
@@ -13,9 +14,15 @@
 namespace TX {
 
 class ModuleManager {
+public:
+  typedef 
+  std::function <module::Module::ModuleResult()> 
+  WorkFunction;
+
 private:
   Save2DB &mongodb;
-  ThreadPool <std::function<int()>*, int> pool ();
+  ThreadPool <WorkFunction*, 
+	      module::Module::ModuleResult> pool;
   
   //typedef void* (*init_t)(void*);
   typedef void (*destroy_t)(TX::module::Module*);
@@ -42,10 +49,10 @@ public:
   bool registerModule (const std::string &modulePath,
 		       boost::property_tree::ptree *pt);
 
-  bool processFilePath (const std::string &path,
-			const std::string &fileName,
-			const std::string &extension);
-
+  bool processFilePath (const std::string path,
+			const std::string fileName,
+			const std::string extension);
+  
   virtual ~ModuleManager();
 };
 

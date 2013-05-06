@@ -66,41 +66,34 @@ bool ModuleManager::registerModule (const std::string &modulePath,
   return true;
 }
 
-bool ModuleManager::processFilePath (const std::string &path,
-				     const std::string &fileName,
-				     const std::string &extension) {
+
+bool ModuleManager::processFilePath (const std::string path,
+				     const std::string fileName,
+				     const std::string extension) {
   
-  // std::cout << "processing by module manager " 
-  // 	    << fileName 
-  // 	    << " ext(" 
-  // 	    << extension
-  // 	    << ")"
-  // 	    << std::endl;
   
   auto range = modules.equal_range (extension);
   
   for (auto it = range.first , end = range.second ; it != end ; ++it) {
-    // std::cout << "send " << fileName 
-    // 	      << " to module " << it->first 
-    // 	      << " addr " << it->second 
-    // 	      << std::endl;
 
     mongo::BSONObjBuilder requestBuilder;
     const std::string fullPath (path + "/" + fileName);
 
 
-
-    bool ret = it->second->processFilePath(path, 
-					   fileName, 
-					   extension, 
-					   &requestBuilder);
-
     
-    if (ret) {
-      mongodb.saveEntry(extension,
-			fullPath, 
-			requestBuilder);
-    }
+    // auto q = new std::function<WorkFunction>(std::bind(&module::Module::processFilePath,
+    // 						       *(it->second)/*->processFilePath*/,
+    // 						       path, fileName, extension));
+    auto q = new std::function<module::Module::RequestResult()>
+      (std::bind(&module::Module::processFilePath,
+		 *(it->second)/*->processFilePath*/,
+		 path, fileName, extension));
+    //    pool.push(it->second->processFilePath(path, 
+					  // fileName, 
+					  // extension));
+
+    pool.push (q);
+    
   }
 
   return true;

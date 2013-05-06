@@ -6,12 +6,13 @@ SUBDIRS = modules
 CXXFLAGS = -Wall -g3 -std=gnu++11 --coverage -O0 -Werror
 LDFLAGS = -lm -lboost_filesystem -lboost_system -lboost_thread -lpthread  -L/home/trax/root/lib/ -lmongoclient -ldl
 
-SRC_CPP = ./Browse.cpp \
-./Configuration.cpp \
-./ModuleManager.cpp \
-./Save2DB.cpp \
-./main.cpp 
-
+SRC_CPP =  \
+./Browse.cpp         \
+./Configuration.cpp  \
+./ModuleManager.cpp  \
+./Save2DB.cpp        \
+./main.cpp           \
+./tools/SpinLock.cpp
 
 
 

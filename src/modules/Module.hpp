@@ -12,13 +12,23 @@ namespace TX {
 namespace module {
 
 class Module {
-public:
+private:
 
-  virtual bool
+
+
+public:
+  typedef struct ModuleResult{
+    mongo::BSONObj file;
+    mongo::BSONObj data;
+  }RequestResult;
+  
+  virtual RequestResult 
   processFilePath(const std::string directoryPath, 
 		  const std::string filename,
-		  const std::string extension,
-		  mongo::BSONObjBuilder *requestBuilder) = 0;
+		  const std::string extension) {
+    return RequestResult{};
+  };
+
   
 
   virtual ~Module() {}
