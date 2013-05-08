@@ -9,8 +9,8 @@
 namespace TX {
 
 ModuleManager::ModuleManager(Save2DB &_mongodb):
-  mongodb(_mongodb) {
-  
+  mongodb(_mongodb),
+  polling(false) {
 }
 
 bool ModuleManager::registerModule (const std::string &modulePath, 
@@ -59,9 +59,6 @@ bool ModuleManager::registerModule (const std::string &modulePath,
     //modules.insert ({it, module});
     
   }
-
-
-
     
   return true;
 }
@@ -79,24 +76,38 @@ bool ModuleManager::processFilePath (const std::string path,
     mongo::BSONObjBuilder requestBuilder;
     const std::string fullPath (path + "/" + fileName);
 
-
-    
-    // auto q = new std::function<WorkFunction>(std::bind(&module::Module::processFilePath,
-    // 						       *(it->second)/*->processFilePath*/,
-    // 						       path, fileName, extension));
     auto q = new std::function<module::Module::RequestResult()>
       (std::bind(&module::Module::processFilePath,
 		 *(it->second)/*->processFilePath*/,
 		 path, fileName, extension));
-    //    pool.push(it->second->processFilePath(path, 
-					  // fileName, 
-					  // extension));
 
     pool.push (q);
-    
   }
 
   return true;
+}
+
+void ModuleManager::pollResults () {
+
+  while (polling) {
+    auto result = pool.getJob();
+    if (!result.success) {
+      usleep(1);
+    } else {
+      mongodb.
+    }
+  }
+
+}
+
+void ModuleManager::run (){
+  polling = true;
+  pollingResultsThread = std::thread (&ModuleManager::pollResults, this);
+}
+
+void stop (){
+  polling = false;
+  pollingResultsThread.join ();
 }
 
 
@@ -107,6 +118,7 @@ ModuleManager::~ModuleManager() {
     it.destructor(module);
     dlclose(it.libHandle);
   }
+
 }
 
 

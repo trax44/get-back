@@ -21,6 +21,9 @@ public:
 
 private:
   Save2DB &mongodb;
+  bool     polling;
+  std::thread pollingResultsThread;
+  
   ThreadPool <WorkFunction*, 
 	      module::Module::ModuleResult> pool;
   
@@ -52,6 +55,9 @@ public:
   bool processFilePath (const std::string path,
 			const std::string fileName,
 			const std::string extension);
+
+  void pollResults ();
+  bool run ();
   
   virtual ~ModuleManager();
 };
