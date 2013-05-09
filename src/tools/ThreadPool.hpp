@@ -71,9 +71,10 @@ public:
   ~ThreadPool () {
     run = false;
     std::cout << "quitting pool" << std::endl;
-    // for (auto it : threads) {
-    //   (it.get())->join ();
-    // }
+    for (std::vector<std::thread>::iterator it = threads.begin() , end = threads.end() ; 
+	 it != end ; ++it) {
+      it->join();
+    }
   }
 };
 
