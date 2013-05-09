@@ -23,6 +23,7 @@ private:
   Save2DB &mongodb;
   bool     polling;
   std::thread pollingResultsThread;
+  std::atomic<int> workInProgress;
   
   ThreadPool <WorkFunction*, 
 	      module::Module::ModuleResult> pool;
@@ -57,7 +58,8 @@ public:
 			const std::string extension);
 
   void pollResults ();
-  bool run ();
+  void run ();
+  void stop ();
   
   virtual ~ModuleManager();
 };

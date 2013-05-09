@@ -10,7 +10,8 @@ namespace TX {
 
 ModuleManager::ModuleManager(Save2DB &_mongodb):
   mongodb(_mongodb),
-  polling(false) {
+  polling(false),
+  workInProgress(0) {
 }
 
 bool ModuleManager::registerModule (const std::string &modulePath, 
@@ -41,6 +42,7 @@ bool ModuleManager::registerModule (const std::string &modulePath,
   }
   
   module::Module *module = (module::Module *)initFunction((void *)pt);
+
 
   boost::char_separator<char> sep(", ");
   boost::tokenizer<boost::char_separator<char> > 
@@ -82,37 +84,42 @@ bool ModuleManager::processFilePath (const std::string path,
 		 path, fileName, extension));
 
     pool.push (q);
+    std::cout << "pushing " << fileName << " " << std::endl;
+    workInProgress++;
   }
 
   return true;
 }
 
 void ModuleManager::pollResults () {
+  polling = true;
 
   while (polling) {
-    auto result = pool.getJob();
+    Return<module::Module::ModuleResult> result = pool.getJob();
     if (!result.success) {
       usleep(1);
     } else {
-      mongodb.
+      result.data.printAll();
+      if ((workInProgress--) == 1){
+	stop();
+      }
     }
   }
-
 }
 
-void ModuleManager::run (){
-  polling = true;
+void ModuleManager::run () {
   pollingResultsThread = std::thread (&ModuleManager::pollResults, this);
 }
 
-void stop (){
+void ModuleManager::stop () {
   polling = false;
-  pollingResultsThread.join ();
 }
 
 
 ModuleManager::~ModuleManager() {
   std::cout << "~ModuleManager" << std::endl;
+  //pollingResultsThread.join ();
+
   for (auto it: modulesInformation) {
     TX::module::Module *module = it.module;
     it.destructor(module);
