@@ -55,8 +55,8 @@ bool ModuleManager::registerModule (const std::string &modulePath,
     if (it == "ALL") {
       modulesForAllEnabledFiles.push_back (module);
     } else {
-      modules.insert (std::make_pair<std::string, module::Module *> 
-		      (std::move(it), std::move(module)));
+      modules.insert (std::make_pair
+		      (it, module));
     }
     //modules.insert ({it, module});
     
@@ -80,9 +80,9 @@ bool ModuleManager::processFilePath (const std::string path,
 
     auto q = new std::function<module::Module::RequestResult()>
       (std::bind(&module::Module::processFilePath,
-		 *(it->second)/*->processFilePath*/,
-		 path, fileName, extension));
-
+    		 std::ref(*(it->second)),
+    		 path, fileName, extension));
+    
     pool.push (q);
     std::cout << "pushing " << fileName << " " << std::endl;
     workInProgress++;
