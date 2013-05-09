@@ -3,10 +3,10 @@
 
 #include <stdexcept>
 #include <boost/property_tree/ptree.hpp>
+#include <string>
 
 #include "../tools/Return.hpp"
 #include "Module.hpp"
-
 
 
 namespace TX {
@@ -15,17 +15,21 @@ namespace module {
 class SkelModule : public Module {
 private:
   boost::property_tree::ptree *configuration;
-
+  
 public:
-  SkelModule(boost::property_tree::ptree  *);
+  SkelModule(boost::property_tree::ptree  *configuration);
 
-  bool
+  const std::string &getName ();
+  
+  
+  RequestResult
   processFilePath(const std::string directoryPath, 
 		  const std::string filename,
-		  const std::string extension,
-		  mongo::BSONObjBuilder *requestBuilder);
+		  const std::string extension);
   
-  virtual ~SkelModule();
+
+
+  ~SkelModule();
 };
 
 } //module
