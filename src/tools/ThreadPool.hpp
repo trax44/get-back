@@ -18,7 +18,7 @@ private:
 
   TX::tools::ThreadSafeQueue<T> workQueue;
   TX::tools::ThreadSafeQueue<R> resultQueue;
-  std::vector <std::unique_ptr<std::thread> > threads;
+  std::vector <std::thread> threads;
   bool run;
 
   void doWork (int i) {
@@ -41,8 +41,7 @@ public:
     
     for (int i = 0 ; i < nbThread ; i++) {
 
-      threads.push_back (std::unique_ptr<std::thread>
-			 (new std::thread(&ThreadPool::doWork, this, i)));
+      threads.push_back (std::thread(&ThreadPool::doWork, this, i));
     }
   }
 
@@ -61,7 +60,7 @@ public:
   }
 
   Return<R> getJob() {
-    return resultQueue.pop();
+    return std::move(resultQueue.pop());
   }
 
   void stop (){
