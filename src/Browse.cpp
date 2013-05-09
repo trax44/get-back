@@ -18,15 +18,13 @@ Browse::Browse(const std::string &path, ModuleManager &_moduleManager) :
 
   currentPath.push (initPath);
 
-
-  stateMachin();
 }
 
 void Browse::printCurrentPath () {
   std::cout << "currentPath> " << currentPath.top().absoluteCurrentPath.string() << std::endl;
 }
 
-void Browse::stateMachin () {
+void Browse::go () {
   bool ret;
   do {
     getDown();
@@ -111,12 +109,10 @@ Return <Browse::DirectoryEntry> Browse::browseFiles () {
 				      itr->path().filename().string(),
 				      itr->path().extension().string());
       }
-
     }
-
   }
-  return false;
-
+  
+  return true;
 }
 
 

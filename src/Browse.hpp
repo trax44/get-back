@@ -32,7 +32,7 @@ private:
 public:
   Browse(const std::string &path, ModuleManager &moduleManager);
 
-  void stateMachin ();
+  void go ();
   bool isVisited (const std::string &path);
   void getDown ();
   bool getUp ();

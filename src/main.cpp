@@ -28,11 +28,9 @@ int main(int argc, char *argv[]) {
   }
 
   
-  //std::cout << "Skel> " << init (NULL) << std::endl;
-
-
   TX::Browse browser(argv[2], moduleManager);
-
+  browser.go();
+  moduleManager.pollResults ();
     
   //browser.printCurrentPath();
   return 0;
