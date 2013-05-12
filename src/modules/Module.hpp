@@ -12,12 +12,11 @@ namespace TX {
 namespace module {
 
 class Module {
-private:
-
+protected:
+  std::string moduleName;
 
 
 public:
-  const std::string moduleName;
   typedef struct ModuleResult {
     std::string path;
     std::string fileName;

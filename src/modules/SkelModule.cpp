@@ -5,8 +5,8 @@ namespace TX {
 namespace module {
 
 SkelModule::SkelModule(boost::property_tree::ptree *_configuration) :
-  moduleName("SkelModule"),
   configuration(_configuration) {
+  moduleName = "SkelModule";
 
   if (configuration == NULL){
     throw std::runtime_error ("test");
