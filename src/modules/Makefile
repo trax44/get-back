@@ -5,7 +5,7 @@ CXXFLAGS = -Wall -g3 -std=gnu++11 --coverage -O0 -Werror
 LDFLAGS = -lm -lboost_filesystem -lboost_system -lboost_thread -lpthread  -L/home/trax/root/lib/ -lmongoclient
 
 
-all:libskelmodule.so libFileSystem.so libDocument.so
+all:libskelmodule.so #libFileSystem.so libDocument.so
 
 libskelmodule.so:SkelModule.o
 	$(CXX)  $(CXXFLAGS) -shared -Wl,-soname,$@ -o $@ $(<)
